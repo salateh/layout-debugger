@@ -1,5 +1,5 @@
 import { createRoot } from "react-dom/client";
-import { LayoutDebugger } from "./LayoutDebugger";
+import { LayoutDebugger } from "./components/LayoutDebugger";
 
 const ROOT_ID = "layout-debugger-inject-root";
 
