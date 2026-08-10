@@ -1,38 +1,75 @@
-# layout-debugger
 
+# Layout Debugger 🛠️
 
-
-
-A lightweight, zero-dependency browser booklet (bookmarklet) designed for web developers and QA engineers. It helps detect hidden frontend errors, runtime exceptions, structural HTML flaws, and responsiveness bugs directly on any live webpage—without needing to keep browser DevTools open.
-
-## 🚀 Key Features
-
-* **JS & Resource Error Tracking**: Catches uncaught runtime exceptions, unhandled Promise rejections, and broken asset links (404 errors for images or scripts).
-* **HTML Structure Audit**: Identifies duplicate element `id`s and missing `alt` attributes on images.
-* **Layout & Responsiveness Check**: Scans the page for elements that break out of the viewport width (causing horizontal scrolling) and highlights them with distinct borders.
-* **Interactive UI**: Aggregates all found issues inside a clean, modern dark-mode dashboard panel in the corner of your screen. 
-* **Toggle Mode**: Click the bookmark once to run the audit; click it again to completely remove the dashboard and clean up all highlighted borders.
+A lightweight, standalone React-powered bookmarklet widget for real-time web layout auditing, HTML validation, and error tracking on any webpage.
 
 ---
 
-## 💻 Installation
+## en English
 
-###  Add to Bookmarks Bar (Quickest)
-1. Ensure your browser's **Bookmarks Bar** is visible (`Ctrl + Shift + B` or `Cmd + Shift + B`).
-2. Right-click on your bookmarks bar and select **Add Page** (or *Add Bookmark*).
-3. Set the **Name** to: `🛠️ Debugger`.
-4. In the **URL / Address** field, copy and paste the entire single-line code block below:
+### Features
+* 📐 **Layout Overflow Detection:** Automatically finds elements extending beyond the screen width that break responsive layouts.
+* 🏷️ **HTML & Accessibility Audits:** Checks for missing `lang` attributes, missing `<h1>` tags, missing `alt` attributes on images, duplicate IDs, and invalid element nesting (e.g., links inside links or buttons).
+* ⚠️ **JS & Resource Monitoring:** Captures runtime script errors, unhandled promise rejections, and failed asset requests (`<img>`, `<script>`).
+* 🎯 **Interactive Inspection:** Hovering over any detected error highlights the element on the page in green and smoothly scrolls it into view.
+* 🖐️ **Draggable & Multilingual UI:** Freely reposition the overlay on your screen and switch between English and Russian languages instantly.
+
+### Quick Start (Bookmarklet)
+
+1. Open your browser's **Bookmark Manager** and create a new bookmark.
+2. Name it **Layout Debugger**.
+3. Paste the following snippet into the **URL / Address** field:
 
 ```javascript
-javascript:(function(){var s=document.createElement("script");s.src="https://cdn.jsdelivr.net/gh/salateh/layout-debugger@main/dist/bundle.js?v="+Date.now();document.head.appendChild(s);})();
+javascript:(function(){var s=document.createElement('script');s.src='[https://cdn.jsdelivr.net/gh/salateh/layout-debugger@main/dist/bundle.js?v='+Date.now();document.head.appendChild(s](https://cdn.jsdelivr.net/gh/salateh/layout-debugger@main/dist/bundle.js?v='+Date.now();document.head.appendChild(s));})();
+
 ```
+
+4. Open any webpage and click the bookmark to launch the debugger widget. Click it again to remove it.
+
 ---
 
-## 🛠️ How to Use
+## ru Русский
 
-1. Navigate to any standard website you wish to test.
-2. Click the `🛠️ Debugger` bookmark on your bookmarks bar.
-3. The interactive dashboard will appear in the bottom-right corner, displaying real-time analytics while visual layout errors are highlighted with outlines on the page.
-4. To close the panel and restore the original look of the site, simply **click the bookmark again** or click the `✕` close button on the dashboard.
+### Возможности
 
-*Note: Browsers block bookmarklets on internal URLs (like `chrome://...`) and sites with strict Content Security Policies (CSP), such as `github.com`. Test the debugger on typical public websites.*
+* 📐 **Поиск вылетов верстки:** Автоматически находит элементы, вылезающие за ширину экрана и ломающие адаптивность.
+* 🏷️ **Проверка HTML и доступности:** Проверяет отсутствие атрибута `lang` у `<html>`, отсутствие тега `<h1>`, пропущенные `alt` у изображений, дубликаты `id` и некорректную вложенность тегов (например, ссылки внутри кнопок).
+* ⚠️ **Мониторинг JS и ресурсов:** Перехватывает ошибки скриптов, упавшие промисы и не закрузившиеся ресурсы (`<img>`, `<script>`).
+* 🎯 **Интерактивная подсветка:** При наведении на ошибку страница автоматически скроллится к проблемному элементу и ярко подсвечивает его.
+* 🖐️ **Перетаскиваемый двуязычный UI:** Панель можно свободно перемещать по экрану и переключать язык (RU/EN) в один клик.
+
+### Быстрый старт (Букмарклет)
+
+1. Откройте **Диспетчер закладок** вашего браузера и создайте новую закладку.
+2. Назовите её **Layout Debugger**.
+3. В поле **URL / Адрес** вставьте следующий код:
+
+```javascript
+javascript:(function(){var s=document.createElement('script');s.src='[https://cdn.jsdelivr.net/gh/salateh/layout-debugger@main/dist/bundle.js?v='+Date.now();document.head.appendChild(s](https://cdn.jsdelivr.net/gh/salateh/layout-debugger@main/dist/bundle.js?v='+Date.now();document.head.appendChild(s));})();
+
+```
+
+4. Откройте любой сайт и нажмите на закладку, чтобы вызвать отладчик. Повторный клик закрывает панель.
+
+---
+
+## 🛠️ Local Development / Локальная разработка
+
+```bash
+# Clone the repository / Клонирование репозитория
+git clone [https://github.com/salateh/layout-debugger.git](https://github.com/salateh/layout-debugger.git)
+cd layout-debugger
+
+# Install dependencies / Установка зависимостей
+npm install
+
+# Run dev server / Запуск dev-сервера
+npm run dev
+
+# Build production bundle / Сборка бандла
+npm run build
+
+```
+
+
