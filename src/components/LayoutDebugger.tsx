@@ -71,11 +71,7 @@ export const LayoutDebugger: React.FC = () => {
 
   useEffect(() => {
     const handleWindowError = (e: ErrorEvent) => {
-      if (
-        e.target &&
-        ((e.target as HTMLElement).tagName === "IMG" ||
-          (e.target as HTMLElement).tagName === "SCRIPT")
-      ) {
+      if (e.target && ((e.target as HTMLElement).tagName === "IMG" || (e.target as HTMLElement).tagName === "SCRIPT")) {
         const target = e.target as HTMLElement;
         const url =
           (target as HTMLImageElement).src ||
@@ -339,10 +335,7 @@ export const LayoutDebugger: React.FC = () => {
         <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
           <button
             onClick={toggleContentEditable}
-            style={{
-              ...headerBtnStyle,
-              color: isEditable ? "#ff9500" : "#aeaeae",
-            }}
+            style={{ ...headerBtnStyle, color: isEditable ? "#ff9500" : "#aeaeae" }}
             title="Toggle content editable for the entire page"
           >
             {isEditable ? t.editModeOn : t.editModeOff}
@@ -350,10 +343,7 @@ export const LayoutDebugger: React.FC = () => {
 
           <button
             onClick={exportReport}
-            style={{
-              ...headerBtnStyle,
-              color: copyStatus === "copied" ? "#34c759" : "#0a84ff",
-            }}
+            style={{ ...headerBtnStyle, color: copyStatus === "copied" ? "#34c759" : "#0a84ff" }}
           >
             {copyStatus === "copied" ? t.copied : t.copyReport}
           </button>
@@ -368,14 +358,7 @@ export const LayoutDebugger: React.FC = () => {
 
           <button
             onClick={handleClose}
-            style={{
-              background: "none",
-              border: "none",
-              color: "#aeaeae",
-              cursor: "pointer",
-              fontSize: "16px",
-              marginLeft: "4px",
-            }}
+            style={{ background: "none", border: "none", color: "#aeaeae", cursor: "pointer", fontSize: "16px", marginLeft: "4px" }}
           >
             ✕
           </button>

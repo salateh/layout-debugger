@@ -27,17 +27,33 @@ export const analyzePage = (t: TranslationKeys): DebugError[] => {
   }
 
   // Проверка форм (a11y)
-  const formElements = document.querySelectorAll('input:not([type="hidden"]):not([type="submit"]):not([type="button"]):not([type="image"]), select, textarea');
+  const formElements = document.querySelectorAll(
+    'input:not([type="hidden"]):not([type="submit"]):not([type="button"]):not([type="image"]), select, textarea',
+  );
   formElements.forEach((el, index) => {
     const formEl = el as HTMLElement;
-    const hasAriaLabel = formEl.hasAttribute("aria-label") && formEl.getAttribute("aria-label")?.trim() !== "";
-    const hasAriaLabelledBy = formEl.hasAttribute("aria-labelledby") && formEl.getAttribute("aria-labelledby")?.trim() !== "";
+    const hasAriaLabel =
+      formEl.hasAttribute("aria-label") &&
+      formEl.getAttribute("aria-label")?.trim() !== "";
+    const hasAriaLabelledBy =
+      formEl.hasAttribute("aria-labelledby") &&
+      formEl.getAttribute("aria-labelledby")?.trim() !== "";
     const hasLabelWrapper = formEl.closest("label") !== null;
     const id = formEl.id;
-    const hasLabelFor = id ? document.querySelector(`label[for="${id}"]`) !== null : false;
-    const hasTitle = formEl.hasAttribute("title") && formEl.getAttribute("title")?.trim() !== "";
+    const hasLabelFor = id
+      ? document.querySelector(`label[for="${id}"]`) !== null
+      : false;
+    const hasTitle =
+      formEl.hasAttribute("title") &&
+      formEl.getAttribute("title")?.trim() !== "";
 
-    if (!hasAriaLabel && !hasAriaLabelledBy && !hasLabelWrapper && !hasLabelFor && !hasTitle) {
+    if (
+      !hasAriaLabel &&
+      !hasAriaLabelledBy &&
+      !hasLabelWrapper &&
+      !hasLabelFor &&
+      !hasTitle
+    ) {
       newErrors.push({
         id: `html-form-label-${index}`,
         type: "html",

@@ -11,6 +11,7 @@
     "postbuild": "node -e \"console.log('\\n--- Code for bookmarks ---\\njavascript:(function(){var s=document.createElement(\\\"script\\\");s.src=\\\"https://cdn.jsdelivr.net/gh/salateh/layout-debugger@main/dist/bundle.js?v=\\\"+Date.now();document.head.appendChild(s);})();\\n')\""
   },
   "dependencies": {
+    "git-filter-repo": "^0.0.30",
     "react": "^19.2.8",
     "react-dom": "^19.2.8"
   },
