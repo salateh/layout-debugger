@@ -22,7 +22,7 @@ A lightweight, standalone React-powered bookmarklet widget for real-time web lay
 3. Paste the following snippet into the **URL / Address** field:
 
 ```javascript
-javascript:(function(){var s=document.createElement("script");s.src="[https://cdn.jsdelivr.net/gh/salateh/layout-debugger@main/dist/bundle.js?v=](https://cdn.jsdelivr.net/gh/salateh/layout-debugger@main/dist/bundle.js?v=)"+Date.now();document.head.appendChild(s);})();
+javascript:(function(){var s=document.createElement("script");s.src="https://cdn.jsdelivr.net/gh/shipit-chill/layout-debugger@main/dist/bundle.js?v="+Date.now();document.head.appendChild(s);})();
 
 ```
 
@@ -50,7 +50,7 @@ javascript:(function(){var s=document.createElement("script");s.src="[https://cd
 3. В поле **URL / Адрес** вставьте следующий код:
 
 ```javascript
-javascript:(function(){var s=document.createElement("script");s.src="[https://cdn.jsdelivr.net/gh/salateh/layout-debugger@main/dist/bundle.js?v=](https://cdn.jsdelivr.net/gh/salateh/layout-debugger@main/dist/bundle.js?v=)"+Date.now();document.head.appendChild(s);})();
+javascript:(function(){var s=document.createElement("script");s.src="https://cdn.jsdelivr.net/gh/shipit-chill/layout-debugger@main/dist/bundle.js?v="+Date.now();document.head.appendChild(s);})();
 
 ```
 
@@ -62,7 +62,7 @@ javascript:(function(){var s=document.createElement("script");s.src="[https://cd
 
 ```bash
 # Clone the repository / Клонирование репозитория
-git clone https://github.com/salateh/layout-debugger.git
+git clone https://github.com/shipit-chill/layout-debugger.git
 cd layout-debugger
 
 # Install dependencies / Установка зависимостей
