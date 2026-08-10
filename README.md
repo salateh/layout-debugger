@@ -57,7 +57,7 @@ javascript:(function(){var s=document.createElement("script");s.src="https://cdn
 
 ```bash
 # Clone the repository / Клонирование репозитория
-git clone [https://github.com/salateh/layout-debugger.git](https://github.com/salateh/layout-debugger.git)
+git clone https://github.com/salateh/layout-debugger.git
 cd layout-debugger
 
 # Install dependencies / Установка зависимостей
