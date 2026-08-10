@@ -8,10 +8,7 @@ export const analyzePage = (t: TranslationKeys): DebugError[] => {
   const seenIds = new Set<string>();
   const duplicateIds = new Set<string>();
 
-  if (
-    !document.documentElement.hasAttribute("lang") ||
-    !document.documentElement.getAttribute("lang")?.trim()
-  ) {
+  if (!document.documentElement.hasAttribute("lang") || !document.documentElement.getAttribute("lang")?.trim()) {
     newErrors.push({
       id: "html-lang",
       type: "html",
@@ -29,13 +26,31 @@ export const analyzePage = (t: TranslationKeys): DebugError[] => {
     });
   }
 
+  // Проверка форм (a11y)
+  const formElements = document.querySelectorAll('input:not([type="hidden"]):not([type="submit"]):not([type="button"]):not([type="image"]), select, textarea');
+  formElements.forEach((el, index) => {
+    const formEl = el as HTMLElement;
+    const hasAriaLabel = formEl.hasAttribute("aria-label") && formEl.getAttribute("aria-label")?.trim() !== "";
+    const hasAriaLabelledBy = formEl.hasAttribute("aria-labelledby") && formEl.getAttribute("aria-labelledby")?.trim() !== "";
+    const hasLabelWrapper = formEl.closest("label") !== null;
+    const id = formEl.id;
+    const hasLabelFor = id ? document.querySelector(`label[for="${id}"]`) !== null : false;
+    const hasTitle = formEl.hasAttribute("title") && formEl.getAttribute("title")?.trim() !== "";
+
+    if (!hasAriaLabel && !hasAriaLabelledBy && !hasLabelWrapper && !hasLabelFor && !hasTitle) {
+      newErrors.push({
+        id: `html-form-label-${index}`,
+        type: "html",
+        text: t.missingLabel.replace("{tag}", formEl.tagName.toLowerCase()),
+        el: formEl,
+      });
+    }
+  });
+
   elements.forEach((el, index) => {
     const htmlEl = el as HTMLElement;
 
-    if (
-      htmlEl.offsetWidth > docWidth &&
-      !["SCRIPT", "STYLE", "LINK"].includes(htmlEl.tagName)
-    ) {
+    if (htmlEl.offsetWidth > docWidth && !["SCRIPT", "STYLE", "LINK"].includes(htmlEl.tagName)) {
       newErrors.push({
         id: `layout-overflow-${index}`,
         type: "layout",
@@ -49,9 +64,7 @@ export const analyzePage = (t: TranslationKeys): DebugError[] => {
 
     if (htmlEl.tagName === "IMG") {
       const imgEl = htmlEl as HTMLImageElement;
-      const src = imgEl.src
-        ? imgEl.src.substring(0, 35) + "..."
-        : "src missing";
+      const src = imgEl.src ? imgEl.src.substring(0, 35) + "..." : "src missing";
 
       if (!imgEl.hasAttribute("alt") || !imgEl.getAttribute("alt")?.trim()) {
         newErrors.push({
@@ -62,12 +75,8 @@ export const analyzePage = (t: TranslationKeys): DebugError[] => {
         });
       }
 
-      const hasWidth =
-        imgEl.hasAttribute("width") &&
-        imgEl.getAttribute("width")?.trim() !== "";
-      const hasHeight =
-        imgEl.hasAttribute("height") &&
-        imgEl.getAttribute("height")?.trim() !== "";
+      const hasWidth = imgEl.hasAttribute("width") && imgEl.getAttribute("width")?.trim() !== "";
+      const hasHeight = imgEl.hasAttribute("height") && imgEl.getAttribute("height")?.trim() !== "";
       const computedStyle = window.getComputedStyle(imgEl);
       const hasAspectRatio =
         computedStyle.aspectRatio !== "auto" &&
