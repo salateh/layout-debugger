@@ -12,7 +12,7 @@ dist/*
 !dist/bundle.js
 dist-ssr
 *.local
-repomix-output.xml
+repomix-output*
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
