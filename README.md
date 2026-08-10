@@ -3,7 +3,6 @@
 
 A lightweight, standalone React-powered bookmarklet widget for real-time web layout auditing, HTML validation, and error tracking on any webpage.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
 
 ## en English
 
