@@ -1,0 +1,67 @@
+.debug-err-layout { outline: 3px solid #ff3b30 !important; background: rgba(255, 59, 48, 0.1) !important; }
+.debug-err-broken-img { outline: 3px dashed #ff9500 !important; filter: grayscale(1) contrast(0.5); }
+.debug-err-missing-attr { outline: 2px dashed #9f7aea !important; }
+
+#debug-dashboard {
+    position: fixed !important;
+    bottom: 20px !important;
+    right: 20px !important;
+    width: 450px !important;
+    max-height: 80vh !important;
+    background: #1c1c1e !important;
+    color: #ffffff !important;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.5) !important;
+    border-radius: 12px !important;
+    border: 1px solid #3a3a3c !important;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+    font-size: 13px !important;
+    z-index: 999999 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    overflow: hidden !important;
+}
+
+#debug-dashboard * { box-sizing: border-box !important; }
+
+.debug-header {
+    background: #2c2c2e !important;
+    padding: 12px 16px !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    border-bottom: 1px solid #3a3a3c !important;
+}
+.debug-title { font-weight: bold !important; font-size: 14px !important; margin: 0 !important; color: #fff !important;}
+.debug-close { background: none !important; border: none !important; color: #aeaeae !important; cursor: pointer !important; font-size: 16px !important; }
+.debug-close:hover { color: #fff !important; }
+
+.debug-content {
+    padding: 16px !important;
+    overflow-y: auto !important;
+    flex: 1 !important;
+}
+
+.debug-section { margin-bottom: 16px !important; }
+.debug-section-title { 
+    font-weight: 600 !important; 
+    text-transform: uppercase !important; 
+    font-size: 11px !important; 
+    letter-spacing: 0.5px !important; 
+    margin-bottom: 8px !important;
+    padding-bottom: 4px !important;
+    border-bottom: 1px solid #2c2c2e !important;
+}
+.title-js { color: #ff3b30 !important; }
+.title-html { color: #ff9500 !important; }
+.title-layout { color: #af52de !important; }
+
+.debug-list { list-style: none !important; padding: 0 !important; margin: 0 !important; }
+.debug-item { 
+    background: #2c2c2e !important; 
+    padding: 8px 12px !important; 
+    border-radius: 6px !important; 
+    margin-bottom: 6px !important; 
+    line-height: 1.4 !important;
+    word-break: break-word !important;
+}
+.debug-item-empty { color: #8e8e93 !important; font-style: italic !important; }
