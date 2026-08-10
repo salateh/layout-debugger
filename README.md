@@ -21,7 +21,7 @@ A lightweight, standalone React-powered bookmarklet widget for real-time web lay
 3. Paste the following snippet into the **URL / Address** field:
 
 ```javascript
-javascript:(function(){var s=document.createElement('script');s.src='[https://cdn.jsdelivr.net/gh/salateh/layout-debugger@main/dist/bundle.js?v='+Date.now();document.head.appendChild(s](https://cdn.jsdelivr.net/gh/salateh/layout-debugger@main/dist/bundle.js?v='+Date.now();document.head.appendChild(s));})();
+javascript:(function(){var s=document.createElement("script");s.src="https://cdn.jsdelivr.net/gh/salateh/layout-debugger@main/dist/bundle.js?v="+Date.now();document.head.appendChild(s);})();
 
 ```
 
@@ -46,7 +46,7 @@ javascript:(function(){var s=document.createElement('script');s.src='[https://cd
 3. В поле **URL / Адрес** вставьте следующий код:
 
 ```javascript
-javascript:(function(){var s=document.createElement('script');s.src='[https://cdn.jsdelivr.net/gh/salateh/layout-debugger@main/dist/bundle.js?v='+Date.now();document.head.appendChild(s](https://cdn.jsdelivr.net/gh/salateh/layout-debugger@main/dist/bundle.js?v='+Date.now();document.head.appendChild(s));})();
+javascript:(function(){var s=document.createElement("script");s.src="https://cdn.jsdelivr.net/gh/salateh/layout-debugger@main/dist/bundle.js?v="+Date.now();document.head.appendChild(s);})();
 
 ```
 
