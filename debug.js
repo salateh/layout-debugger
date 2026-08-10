@@ -62,7 +62,7 @@
     const link = document.createElement('link');
     link.id = 'debug-style-node';
     link.rel = 'stylesheet';
-    link.href = 'https://YOUR_USERNAME.github.io/layout-debugger/my-debug.css?t=' + Date.now();
+    link.href = 'https://github.io' + Date.now();
     document.head.appendChild(link);
 
     const dash = document.createElement('div');
