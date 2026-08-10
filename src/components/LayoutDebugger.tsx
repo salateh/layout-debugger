@@ -9,6 +9,8 @@ export const LayoutDebugger: React.FC = () => {
   const [isOpen, setIsOpen] = useState(true);
   const [errors, setErrors] = useState<DebugError[]>([]);
   const [isHoveredError, setIsHoveredError] = useState(false);
+  const [isEditable, setIsEditable] = useState(false);
+  const [copyStatus, setCopyStatus] = useState<"idle" | "copied">("idle");
 
   const [position, setPosition] = useState({ x: 20, y: 20 });
   const isDragging = useRef(false);
@@ -55,6 +57,13 @@ export const LayoutDebugger: React.FC = () => {
     };
   }, []);
 
+  // Очистка contentEditable при закрытии/размонтировании виджета
+  useEffect(() => {
+    return () => {
+      document.body.contentEditable = "false";
+    };
+  }, []);
+
   const runAnalysis = useCallback(() => {
     const foundErrors = analyzePage(t);
     setErrors(foundErrors);
@@ -62,19 +71,20 @@ export const LayoutDebugger: React.FC = () => {
 
   useEffect(() => {
     const handleWindowError = (e: ErrorEvent) => {
-      if (
-        e.target &&
-        ((e.target as HTMLElement).tagName === "IMG" ||
-          (e.target as HTMLElement).tagName === "SCRIPT")
-      ) {
+      if (e.target && ((e.target as HTMLElement).tagName === "IMG" || (e.target as HTMLElement).tagName === "SCRIPT")) {
         const target = e.target as HTMLElement;
-        const url = (target as HTMLImageElement).src || (target as HTMLLinkElement).href || "";
+        const url =
+          (target as HTMLImageElement).src ||
+          (target as HTMLLinkElement).href ||
+          "";
         setErrors((prev) => [
           ...prev,
           {
             id: `res-err-${Date.now()}-${Math.random()}`,
             type: "html",
-            text: t.failedResource.replace("{tag}", target.tagName).replace("{url}", url),
+            text: t.failedResource
+              .replace("{tag}", target.tagName)
+              .replace("{url}", url),
             el: target,
           },
         ]);
@@ -110,7 +120,10 @@ export const LayoutDebugger: React.FC = () => {
 
     return () => {
       window.removeEventListener("error", handleWindowError, true);
-      window.removeEventListener("unhandledrejection", handleUnhandledRejection);
+      window.removeEventListener(
+        "unhandledrejection",
+        handleUnhandledRejection,
+      );
     };
   }, [runAnalysis, t]);
 
@@ -192,7 +205,53 @@ export const LayoutDebugger: React.FC = () => {
     el.scrollIntoView({ behavior: "smooth", block: "center" });
   };
 
+  const toggleContentEditable = () => {
+    const newState = !isEditable;
+    document.body.contentEditable = newState ? "true" : "false";
+    setIsEditable(newState);
+  };
+
+  const exportReport = async () => {
+    const jsErrors = errors.filter((e) => e.type === "js");
+    const htmlErrors = errors.filter((e) => e.type === "html");
+    const layoutErrors = errors.filter((e) => e.type === "layout");
+
+    const md = [
+      `# ${t.title} Report`,
+      `**URL:** \`${window.location.href}\``,
+      `**Date:** ${new Date().toLocaleString()}`,
+      `---`,
+    ];
+
+    if (errors.length === 0) {
+      md.push(`✅ **${t.empty}**`);
+    } else {
+      const sections = [
+        { title: t.jsSection, items: jsErrors },
+        { title: t.htmlSection, items: htmlErrors },
+        { title: t.layoutSection, items: layoutErrors },
+      ];
+
+      sections.forEach((sec) => {
+        if (sec.items.length > 0) {
+          md.push(`### ${sec.title}`);
+          sec.items.forEach((err) => md.push(`- ${err.text}`));
+          md.push(``);
+        }
+      });
+    }
+
+    try {
+      await navigator.clipboard.writeText(md.join("\n"));
+      setCopyStatus("copied");
+      setTimeout(() => setCopyStatus("idle"), 2000);
+    } catch (err) {
+      console.error("Clipboard copy failed", err);
+    }
+  };
+
   const handleClose = () => {
+    document.body.contentEditable = "false";
     if (pinnedElRef.current) {
       pinnedElRef.current.classList.remove("debug-highlight-active");
       pinnedElRef.current = null;
@@ -210,8 +269,21 @@ export const LayoutDebugger: React.FC = () => {
   const htmlErrors = errors.filter((e) => e.type === "html");
   const layoutErrors = errors.filter((e) => e.type === "layout");
 
+  // Общие стили для кнопок-хедеров
+  const headerBtnStyle: React.CSSProperties = {
+    background: "#3a3a3c",
+    border: "none",
+    borderRadius: "4px",
+    padding: "4px 8px",
+    fontSize: "11px",
+    fontWeight: "bold",
+    cursor: "pointer",
+    transition: "background 0.2s, color 0.2s",
+  };
+
   return (
     <div
+      contentEditable={false} // Защищаем виджет от редактирования
       style={{
         position: "fixed",
         left: `${position.x}px`,
@@ -223,7 +295,8 @@ export const LayoutDebugger: React.FC = () => {
         boxShadow: "0 12px 30px rgba(0,0,0,0.5)",
         borderRadius: "12px",
         border: "1px solid #3a3a3c",
-        fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+        fontFamily:
+          '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
         fontSize: "13px",
         zIndex: 2147483647,
         display: "flex",
@@ -247,23 +320,37 @@ export const LayoutDebugger: React.FC = () => {
         }}
         className="active:cursor-grabbing"
       >
-        <h3 style={{ fontWeight: "bold", fontSize: "14px", margin: 0, color: "#fff", pointerEvents: "none" }}>
+        <h3
+          style={{
+            fontWeight: "bold",
+            fontSize: "14px",
+            margin: 0,
+            color: "#fff",
+            pointerEvents: "none",
+          }}
+        >
           {t.title}
         </h3>
 
-        <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+          <button
+            onClick={toggleContentEditable}
+            style={{ ...headerBtnStyle, color: isEditable ? "#ff9500" : "#aeaeae" }}
+            title="Toggle content editable for the entire page"
+          >
+            {isEditable ? t.editModeOn : t.editModeOff}
+          </button>
+
+          <button
+            onClick={exportReport}
+            style={{ ...headerBtnStyle, color: copyStatus === "copied" ? "#34c759" : "#0a84ff" }}
+          >
+            {copyStatus === "copied" ? t.copied : t.copyReport}
+          </button>
+
           <button
             onClick={() => setLang((prev) => (prev === "ru" ? "en" : "ru"))}
-            style={{
-              background: "#3a3a3c",
-              border: "none",
-              color: "#34c759",
-              borderRadius: "4px",
-              padding: "2px 8px",
-              fontSize: "11px",
-              fontWeight: "bold",
-              cursor: "pointer",
-            }}
+            style={{ ...headerBtnStyle, color: "#34c759", marginLeft: "4px" }}
             title="Switch Language"
           >
             {lang.toUpperCase()}
@@ -271,7 +358,7 @@ export const LayoutDebugger: React.FC = () => {
 
           <button
             onClick={handleClose}
-            style={{ background: "none", border: "none", color: "#aeaeae", cursor: "pointer", fontSize: "16px" }}
+            style={{ background: "none", border: "none", color: "#aeaeae", cursor: "pointer", fontSize: "16px", marginLeft: "4px" }}
           >
             ✕
           </button>
